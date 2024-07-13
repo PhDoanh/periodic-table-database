@@ -1,3 +1,5 @@
+#!/bin/bash
+
 PSQL="psql -X --username=freecodecamp --dbname=periodic_table --tuples-only --no-align -c"
 
 if [[ ! $1 =~ ^[0-9]+$ ]]; then
