@@ -2,7 +2,11 @@
 
 PSQL="psql -X --username=freecodecamp --dbname=periodic_table --tuples-only --no-align -c"
 
-OUTPUT=$($PSQL "SELECT * FROM properties FULL JOIN elements USING (atomic_number) FULL JOIN types USING (type_id) WHERE atomic_number=$1 OR symbol='$1' OR name='$1'")
+if [[ ! $1 =~ ^[0-9]+$ ]]; then
+  OUTPUT=$($PSQL "SELECT * FROM properties FULL JOIN elements USING (atomic_number) FULL JOIN types USING (type_id) WHERE symbol='$1' OR name='$1'")
+else
+  OUTPUT=$($PSQL "SELECT * FROM properties FULL JOIN elements USING (atomic_number) FULL JOIN types USING (type_id) WHERE atomic_number=$1")
+fi
 
 if [[ -z $OUTPUT ]]; then
   echo "I could not find that element in the database."
